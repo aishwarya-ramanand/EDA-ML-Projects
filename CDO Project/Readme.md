@@ -42,7 +42,6 @@ Preprocessing Pipeline:
 - One-hot encoding  
 
 Combined using:
-
 ```python
 ColumnTransformer(
     transformers=[
@@ -50,3 +49,74 @@ ColumnTransformer(
         ("cat", cat_transformer, categorical_features)
     ]
 )
+
+### 3️⃣ Train-Test Split
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.20, random_state=42, stratify=y
+)
+
+### 4️⃣ Modeling
+
+#### Logistic Regression (Baseline)
+
+logpipe = Pipeline(
+    steps=[
+        ("pre", preprocessor),
+        ("logreg", LogisticRegression(class_weight="balanced", random_state=42))
+    ]
+
+#### Random Forest (Final Model)
+
+rfpipe = Pipeline(
+    steps=[
+        ("pre", preprocessor),
+        ("rf", RandomForestClassifier(random_state=42))
+    ]
+)
+best_model = rfpipe
+joblib.dump(best_model, "custodial_suicide_rf_pipeline.pkl")
+
+📈 Evaluation
+
+Confusion Matrix
+
+Generated using a custom plotting function.
+
+ROC Curve
+
+Compared Logistic Regression vs Random Forest.
+
+Cross-Validation
+
+cv_scores = cross_val_score(logpipe, X, y, cv=5, scoring="f1")
+
+🧾 Project Structure
+
+📂 CDO.ipynb                          → ML workflow notebook  
+📂 datasets/                           → Crime in India dataset  
+📄 README.md                           → Documentation  
+🗂️ custodial_suicide_rf_pipeline.pkl  → Trained Random Forest model
+
+)
+
+🔧 Technologies Used
+
+Python • Pandas • NumPy • Scikit-Learn • Matplotlib • Seaborn • Joblib
+
+🚀 Results
+	•	Random Forest outperformed Logistic Regression.
+	•	Better performance across F1-score and ROC–AUC.
+	•	Pipeline approach ensured clean preprocessing and stable predictions.
+	•	Final model exported for deployment.
+
+📌 Future Improvements
+	•	Hyperparameter tuning (GridSearchCV/RandomizedSearchCV)
+	•	SMOTE for oversampling
+	•	Explainability via SHAP / LIME
+	•	Merging additional datasets for richer feature sets
+
+🙌 Acknowledgements
+
+Dataset Source: Kaggle – Crime in India (Salman Tokhi)
+Tools: Python, Jupyter Notebook, Scikit-Learn
