@@ -1,6 +1,6 @@
 # 📊 Machine Learning Project – Predicting Custodial Suicide
 
-### **By Aishwarya Maiya**
+### **By Aishwarya R**
 
 ---
 
@@ -46,12 +46,3 @@ Preprocessing Pipeline:
 - Most frequent imputation  
 - One-hot encoding  
 
-**Combined using:**
-
-```python
-ColumnTransformer(
-    transformers=[
-        ("num", num_transformer, numerical_features),
-        ("cat", cat_transformer, categorical_features)
-    ]
-)
